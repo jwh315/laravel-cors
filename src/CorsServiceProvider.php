@@ -34,9 +34,12 @@ class CorsServiceProvider extends ServiceProvider
         /** @var \Illuminate\Http\Request $request */
         $request = $this->app['request'];
 
-         // Load the config
-        $config = require __DIR__ . '/config/config.php';
-        $this->app['config']->set('laravel-cors', $config);
+		// Load the config
+		$config = __DIR__ . '/config/config.php';
+		//$this->app['config']->set('laravel-cors', $config);
+		$this->mergeConfigFrom(
+			$config, 'laravel-cors'
+		);
 
         $this->app->bind('Asm89\Stack\CorsService', function() use($request){
             return new CorsService($this->getOptions($request));
